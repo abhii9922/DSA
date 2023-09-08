@@ -30,16 +30,16 @@ def partition(array, start, end):
     return high
 
 
-def quick_sort(array, start, end):
+def Sort(array, start, end):
     if start >= end:
         return
 
     p = partition(array, start, end)
-    quick_sort(array, start, p-1)
-    quick_sort(array, p+1, end)
+    Sort(array, start, p-1)
+    Sort(array, p+1, end)
 
 
-array = [29,99,27,-1,66,28,44,78,87,19,31,76,58,88,83,97,12,21,44]
+# array = [29,99,27,-1,66,28,44,78,87,19,31,76,58,88,83,97,12,21,44]44
 #
 # quick_sort(array, 0, len(array) - 1)
 # print(array)

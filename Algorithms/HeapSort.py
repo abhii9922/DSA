@@ -13,7 +13,7 @@ def Heapify(input_array,len_heap,i):
         Heapify(input_array,len_heap,largest)
 
 
-def heapSort(arr):
+def Sort(arr):
     heap_size = len(arr)
 
     # Build a maxheap.
