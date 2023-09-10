@@ -17,16 +17,7 @@ You may use str(<input value>) while feeding data into visualisation tool.
 Input can be in any order. Just ensure you put all data into the dictionary.
 
 Sample Input:
-sample_input= {"Input Values":["1,2,3","4,5,6","7,8,9","10,11,12","13,14,15","1,2,3","4,5,6","7,8,9","10,11,12","13,14,15","1,2,3","4,5,6","7,8,9","10,11,12","13,14,15",
-                   "1,2,3","4,5,6","7,8,9","10,11,12","13,14,15","1,2,3","4,5,6","7,8,9","10,11,12","13,14,15"],
-   "Algorithm":["Bubble Sort","Bubble Sort","Bubble Sort","Bubble Sort","Bubble Sort",
-                "Merge Sort","Merge Sort","Merge Sort","Merge Sort","Merge Sort",
-                "Bucket Sort","Bucket Sort","Bucket Sort","Bucket Sort","Bucket Sort",
-                "Insertion Sort","Insertion Sort","Insertion Sort","Insertion Sort","Insertion Sort",
-                "Counting Sort","Counting Sort","Counting Sort","Counting Sort","Counting Sort"],
-   "Space":[1,2,3,4,5,3,4,2,1,6,4,2,1,5,3,2,3,5,2,4,2,6,3,1,4],
-   "Runtime":[4.65,3.84,3.95,3.05,5.04,3.23,4.45,1.83,3.65,2.34,5.78,4.76,3.23,4.43,3.43,2.54,3.23,4.43,3.43,2.54,3.23,4.10,3.85,3.33,2.95]
-   }
+sample_input => Refer main.py file
 
 Sample Output (the tool will take care of the output, you needn't bother. Just store it in the format described above):
    Input Values       Algorithm  Space  Runtime
