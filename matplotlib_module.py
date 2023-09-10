@@ -41,7 +41,7 @@ class plot_matplotlib:
         #heat.set(ylabel='Time',title='Correlation')
 
         #Lmplot(Done)
-        sns.lmplot(data=our_data,x="Runtime",y="Space",hue="Algorithm",height=3,col="Algorithm")
+        sns.lmplot(data=our_data,x="Runtime",y="Space",hue="Algorithm",height=3,col="Algorithm",ci=None)
 
         #Display the plots
         plt.show()
