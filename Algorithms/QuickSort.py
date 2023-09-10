@@ -39,7 +39,24 @@ def Sort(array, start, end):
     Sort(array, p+1, end)
 
 
-# array = [29,99,27,-1,66,28,44,78,87,19,31,76,58,88,83,97,12,21,44]44
+# def quickSort(arr, low, high):
+#     while (low < high):
 #
-# quick_sort(array, 0, len(array) - 1)
+#         pi = partition(arr, low, high)
+#
+#         # If left part is smaller, then recur for left
+#         # part and handle right part iteratively
+#         if (pi - low < high - pi):
+#             quickSort(arr, low, pi - 1)
+#             low = pi + 1
+#
+#         # Else recur for right part
+#         else:
+#             quickSort(arr, pi + 1, high)
+#             high = pi - 1
+
+
+# array = [29,99,27,-1,66,28,44,78,87,19,31,76,58,88,83,97,12,21,44]
+#
+# Sort(array, 0, len(array) - 1)
 # print(array)

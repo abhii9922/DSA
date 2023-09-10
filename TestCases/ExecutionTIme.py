@@ -3,10 +3,16 @@ from random import randint
 from timeit import repeat
 from Algorithms import HeapSort
 from Algorithms import QuickSort
+import pandas as pd
+import os
+path = os.getcwd()
+
+print(path)
 
 
 
 ARRAY_LENGTH = 10000
+# df = pd.read_csv("C://Users//charanjalukuru//PycharmProjects//DSA//TestCases//Efficiency.csv")
 
 if __name__ == "__main__":
     # Generate an array of `ARRAY_LENGTH` items consisting
@@ -21,7 +27,7 @@ if __name__ == "__main__":
     for i in range(3):
         start = time.time()
         # print(n_arrays[i])i
-        QuickSort.Sort(n_arrays[i],start = 0,end = len(n_arrays[i])-1)
+        QuickSort.Sort(n_arrays[i],0, len(n_arrays[i])-1)
         end = time.time()
         efficiency = end - start
         eff.append(efficiency)
