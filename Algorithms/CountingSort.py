@@ -33,30 +33,6 @@ def countingSort(inputArray):
     return outputArray
 
 
-def counting_sort2(arr):
-    max_val = max(arr)
-    min_val = min(arr)
-    # print("min_val", min_val)
-    # print("max_val", max_val)
-    range_val = max_val - min_val + 1
-
-    count = [0] * range_val
-    output = [0] * len(arr)
-
-    for num in arr:
-        # print("num ", num, "num-min_val", num - min_val)
-        count[num - min_val] += 1
-        print(count)
-
-    idx = 0
-    for i in range(range_val):
-        while count[i] > 0:
-            output[idx] = i + min_val
-            # print(output)
-            idx += 1
-            count[i] -= 1
-
-    return output
 
 #
 # inputArray = [2,2,0,6,1,9,9,7]

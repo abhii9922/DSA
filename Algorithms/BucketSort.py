@@ -10,16 +10,17 @@ def insertionSort(b):
 
 
 def BucketSort(input_list):
-    # Find maximum value in the list and use length of the list to determine which value in the list goes into which bucket
+    # maximum value in the list
+    # size of list
     max_value = max(input_list)
     size = max_value / len(input_list)
 
-    # Create n empty buckets where n is equal to the length of the input list
+    # Create n empty buckets where n = len of  input list
     buckets_list = []
     for x in range(len(input_list)):
         buckets_list.append([])
 
-        # Put list elements into different buckets based on the size
+    # Put list elements into different buckets based on the size
     for i in range(len(input_list)):
         j = int(input_list[i] / size)
         if j != len(input_list):
