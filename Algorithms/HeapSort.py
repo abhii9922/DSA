@@ -18,7 +18,7 @@ def Sort(arr):
     heap_size = len(arr)
 
     # Build a maxheap.
-    for i in range(heap_size // 2 - 1, -1, -1):
+    for i in range((heap_size // 2), -1, -1):
         Heapify(arr, heap_size, i)
 
     #remove the root element and swap the last element as root and again heapify
@@ -29,12 +29,12 @@ def Sort(arr):
 
 
 # arr = [1, 12, 9, 5, 6, 10]
-# arr = [-1, 12, 0, -5, 6, 10]
-# heapSort(arr)
-# n = len(arr)
-# print("Sorted array is")
-# for i in range(n):
-#   print("%d " % arr[i], end='')
+arr = [-1, 12, 0, -5, 6, 10]
+Sort(arr)
+n = len(arr)
+print("Sorted array is")
+for i in range(n):
+  print("%d " % arr[i], end='')
 
 
 
