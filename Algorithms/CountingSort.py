@@ -33,10 +33,3 @@ def countingSort(inputArray):
     return outputArray
 
 
-
-#
-# inputArray = [2,2,0,6,1,9,9,7]
-# print("Input array = ", inputArray)
-#
-# sortedArray = counting_sort2(inputArray)
-# print("Counting sort result = ", sortedArray)

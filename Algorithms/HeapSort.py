@@ -26,15 +26,10 @@ def Sort(arr):
         arr[i], arr[0] = arr[0], arr[i]  # swap
         Heapify(arr, i, 0)
 
+    return arr
 
 
-# arr = [1, 12, 9, 5, 6, 10]
-arr = [-1, 12, 0, -5, 6, 10]
-Sort(arr)
-n = len(arr)
-print("Sorted array is")
-for i in range(n):
-  print("%d " % arr[i], end='')
+
 
 
 

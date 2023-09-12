@@ -26,6 +26,3 @@ def radix_sort(array):
     return array
 
 
-# array = [2,1,33,44,100]
-# sorted_arr = radix_sort(array)
-# print("Sorted Array:", sorted_arr)
