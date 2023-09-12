@@ -16,8 +16,8 @@ class plot_matplotlib:
         bar_plot.set(title='Runtimes')
 
         #Displot(Done)
-        dis_plot=sns.displot(data=our_data,x='Runtime',kind="kde",hue="Algorithm")
-        dis_plot.set(ylabel='Value',title='Distribution Plot')
+        #dis_plot=sns.displot(data=our_data,x='Runtime',kind="kde",hue="Algorithm")
+        #dis_plot.set(ylabel='Value',title='Distribution Plot')
 
         #Joint Plot(Done)
         sns.jointplot(data=our_data,x="Runtime",y="Space",height=5,hue="Algorithm",kind="scatter")
