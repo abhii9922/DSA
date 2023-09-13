@@ -1,4 +1,4 @@
-from Plot.matplotlib_module import plot_matplotlib
+from Plot.plot_module import seaborn_plot
 
 #Test Dictionary
 d={"Input Values":["1,2,3","4,5,6","7,8,9","10,11,12","13,14,15","1,2,3","4,5,6","7,8,9","10,11,12","13,14,15","1,2,3","4,5,6","7,8,9","10,11,12","13,14,15",
@@ -40,7 +40,7 @@ d={"Input Values":["1,2,3","4,5,6","7,8,9","10,11,12","13,14,15","1,2,3","4,5,6"
 24     13,14,15   Counting Sort      4     2.95
 """
 #Create an object 
-plot_obj=plot_matplotlib()
+plot_obj=seaborn_plot()
 
 #Call its method and pass the data to it
 plot_obj.plot(d)
