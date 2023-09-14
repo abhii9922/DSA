@@ -196,6 +196,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 		self.algorithm_checkboxes = {}
 		self.algorithm_checkboxes_selected = {}
+
+		cbox_count = 0
 		for key in self.algorithms:
 			self.algorithm_checkboxes_selected[key] = tk.IntVar(value=1) 	# reading this value for selected algorithms
 			self.algorithm_checkboxes[key] = ttk.Checkbutton(self.algo_checkbox_container,
@@ -204,7 +206,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 																variable = self.algorithm_checkboxes_selected[key],
 																onvalue=1, offvalue=0,
 																width=10)
-			self.algorithm_checkboxes[key].pack(padx=10, pady=5)
+			self.algorithm_checkboxes[key].grid(column=cbox_count%3, row=cbox_count//3, padx=10, pady=5)
+			cbox_count += 1
 
 
 		#### run analysis button
@@ -502,6 +505,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									height=5,
 									hue="Algorithm",
 									kind="scatter"	)
+			sns.move_legend(plot_1, "upper left", bbox_to_anchor=(1, 1))
 			tab_1_plot = FigureCanvasTkAgg(plt.gcf(), tab_1)
 			tab_1_plot.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, padx=20, pady=20)
 
@@ -510,7 +514,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									y="Space",
 									hue="Algorithm",
 									height=3,
-									col="Algorithm",
+									# col="Algorithm",
 									ci=None 	)
 			tab_2_plot = FigureCanvasTkAgg(plt.gcf(), tab_2)
 			tab_2_plot.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, padx=20, pady=20)
