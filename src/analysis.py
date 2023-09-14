@@ -39,7 +39,6 @@ def sorting_memory_all(input_data, algorithms):
 		sorted_data, max_memory_allocated = sorting_memory_one(algorithm_function, input_data)
 		results[algorithm_name] = (sorted_data, max_memory_allocated)
 
-	print(results)
 	return results
 
 
