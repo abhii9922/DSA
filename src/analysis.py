@@ -23,8 +23,10 @@ def sorting_runtime_all(input_data, algorithms):
 
 # measure RUNTIME of a SINGLE algorithm on a SINGLE set of data
 def sorting_runtime_one(algorithm_function, input_data):
+	unsorted_data = input_data.copy()	# Make a copy to avoid modifying the original data
+	
 	start_time = time.time()
-	sorted_data = algorithm_function(input_data.copy())  # Make a copy to avoid modifying the original data
+	sorted_data = algorithm_function(unsorted_data)  
 	end_time = time.time()
 
 	time_taken = end_time - start_time
@@ -44,8 +46,10 @@ def sorting_memory_all(input_data, algorithms):
 
 # measure MEMORY usage of a SINGLE algorithm on a SINGLE set of data
 def sorting_memory_one(algorithm_function, input_data):
+	unsorted_data = input_data.copy()	# Make a copy to avoid modifying the original data
+	
 	tracemalloc.start()
-	sorted_data = algorithm_function(input_data.copy())  # Make a copy to avoid modifying the original data
+	sorted_data = algorithm_function(unsorted_data)  
 	current, peak_size = tracemalloc.get_traced_memory()
 	tracemalloc.stop()
 
