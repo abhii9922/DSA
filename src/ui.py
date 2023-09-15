@@ -265,9 +265,14 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 	def generate_random_list(self):
 		# Generate random integers & convert to a comma-separated string
-		min_val = int(self.input_array_random_one_minval_entry.get())
-		max_val = int(self.input_array_random_one_maxval_entry.get())
-		count = int(self.input_array_random_one_count_entry.get())
+		try:
+			min_val = int(self.input_array_random_one_minval_entry.get())
+			max_val = int(self.input_array_random_one_maxval_entry.get())
+			count = int(self.input_array_random_one_count_entry.get())
+		except:
+			# if passing a non-integer, show an error
+			Messagebox.show_error("Non-integer values detected. Please make sure values are integers.", "Input Error")
+			return
 
 		random_list = random.sample(range(min_val, max_val), count)
 		list_str = ",".join([str(i) for i in random_list if i])
@@ -287,8 +292,13 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		# determine if single or multiple, then validate accordingly
 		if self.input_array_num.get() == "many":		# multiple arrays
 			# get min and max value
-			min_val = int(self.input_array_random_many_minval_entry.get())
-			max_val = int(self.input_array_random_many_maxval_entry.get())
+			try:
+				min_val = int(self.input_array_random_many_minval_entry.get())
+				max_val = int(self.input_array_random_many_maxval_entry.get())
+			except:
+				# if passing a non-integer, show an error
+				Messagebox.show_error("Non-integer values detected. Please make sure min/max values are integers.", "Input Error")
+				return
 
 			# check if "varied sizes" is activated and handle accordingly
 			is_checked = self.input_array_random_many_variedsize_checkbox_value.get()
