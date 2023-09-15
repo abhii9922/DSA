@@ -32,9 +32,11 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			"Bucket Sort": bucket_sort.sort,
 			"Counting Sort": counting_sort.sort,
 			"Heap Sort": heap_sort.sort,
+			"Insertion Sort": insertion_sort.sort,
 			"Merge Sort": merge_sort.sort,
 			"Quicksort": quicksort.sort,
 			"Radix Sort": radix_sort.sort,
+			"Selection Sort": selection_sort.sort,
 		}
 
 		self.build_gui()
@@ -197,7 +199,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		self.algorithm_checkboxes = {}
 		self.algorithm_checkboxes_selected = {}
 
-		cbox_count = 0
+		cbox_count = 0 		# this is to determine location in grid 
 		for key in self.algorithms:
 			self.algorithm_checkboxes_selected[key] = tk.IntVar(value=1) 	# reading this value for selected algorithms
 			self.algorithm_checkboxes[key] = ttk.Checkbutton(self.algo_checkbox_container,
@@ -215,7 +217,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		self.run_analysis_button.pack(pady=20, ipadx=150, ipady=10)
 
 
-		#### output_panel (right panel) - displays results
+		###### output_panel (right panel) - displays results
 		self.output_panel = ttk.Frame(self)
 		self.output_panel.pack(side=LEFT, anchor=CENTER, expand=TRUE, fill=X, padx=10, pady=10)
 
@@ -228,6 +230,11 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		## container to display sorted array values
 		self.output_details_container = ttk.Frame(self.output_panel)
 		self.output_details_container.pack(pady=20)
+
+
+		###### miscellaneous elements
+		# self.scrollbar = ttk.Scrollbar(self.input_panel, orient='vertical')
+		# self.scrollbar.pack(side="right", fill="y")
 
 
 	def show_hide_array_settings(self):
@@ -505,7 +512,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									height=5,
 									hue="Algorithm",
 									kind="scatter"	)
-			sns.move_legend(plot_1, "upper left", bbox_to_anchor=(1, 1))
+			# sns.move_legend(plot_1, "upper left", bbox_to_anchor=(1, 1))
 			tab_1_plot = FigureCanvasTkAgg(plt.gcf(), tab_1)
 			tab_1_plot.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, padx=20, pady=20)
 

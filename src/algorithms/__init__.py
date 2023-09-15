@@ -6,7 +6,9 @@ __all__ = [
 	"bucket_sort",
 	"counting_sort",
 	"heap_sort",
+	"insertion_sort",
 	"merge_sort",
 	"quicksort",
 	"radix_sort",
+	"selection_sort",
 ]
