@@ -25,12 +25,12 @@ from algorithms import *
 # helper function for debugging
 # this pretty prints dictionaries
 def pretty(d, indent=0):
-   for key, value in d.items():
-      print('\t' * indent + str(key))
-      if isinstance(value, dict):
-         pretty(value, indent+1)
-      else:
-         print('\t' * (indent+1) + str(value))
+	for key, value in d.items():
+		print('\t' * indent + str(key))
+		if isinstance(value, dict):
+			pretty(value, indent+1)
+		else:
+			print('\t' * (indent+1) + str(value))
 
 
 class AlgorithmAnalyzerApp(tk.Tk):
@@ -53,6 +53,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			"Selection Sort": selection_sort.sort,
 		}
 
+		# some algorithms may not work when there are negative integers
+		# this list tracks them so it can be ignored during analysis
 		self.positive_int_only_algorithms = [
 			"Counting Sort",
 		]
@@ -137,6 +139,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		self.input_array_random_many_label_frame = ttk.Labelframe(self.input_entry_grid, text="Randomizer Settings", bootstyle=SECONDARY)
 		self.input_array_random_many_label_frame.grid(ipadx=20, column=0, row=1)
 
+		# row 1 - min and max value
 		self.input_array_random_many_settings_row_1 = ttk.Frame(self.input_array_random_many_label_frame)
 		self.input_array_random_many_settings_row_1.pack(padx=10, pady=10)
 
@@ -150,6 +153,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		self.input_array_random_many_maxval_entry.pack(expand=True, fill=X, side=LEFT)
 		self.input_array_random_many_maxval_entry.insert(0, "100")
 
+		# row 2 - num elements field
 		self.input_array_random_many_settings_row_2 = ttk.Frame(self.input_array_random_many_label_frame)
 		self.input_array_random_many_settings_row_2.pack(padx=10)
 
@@ -157,6 +161,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		self.input_array_random_many_count_entry = ttk.Entry(self.input_array_random_many_settings_row_2, width=15, bootstyle=PRIMARY)
 		self.input_array_random_many_count_entry.pack(expand=True, fill=X, side=LEFT, anchor=W)
 
+		# row 3 - num arrays field and varied sizes checkbox
 		self.input_array_random_many_settings_row_3 = ttk.Frame(self.input_array_random_many_label_frame)
 		self.input_array_random_many_settings_row_3.pack(padx=10, pady=10)
 
@@ -164,15 +169,23 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		self.input_array_random_many_numarrays_entry = ttk.Entry(self.input_array_random_many_settings_row_3, width=5, bootstyle=PRIMARY)
 		self.input_array_random_many_numarrays_entry.pack(expand=True, fill=X, side=LEFT, anchor=W)
 
-
 		self.input_array_random_many_variedsize_checkbox_value = tk.IntVar(value=0) 	
 		self.input_array_random_many_variedsize_checkbox = ttk.Checkbutton(self.input_array_random_many_settings_row_3,
 																			text="Varied Sizes", command=self.varied_sizes_toggle_handler,
 																			variable = self.input_array_random_many_variedsize_checkbox_value,
 																			onvalue=1, offvalue=0,
-																			bootstyle=(PRIMARY, SQUARE, TOGGLE))
+																			bootstyle=PRIMARY)
 		self.input_array_random_many_variedsize_checkbox.pack(padx=20, expand=True, fill=X, side=LEFT, anchor=CENTER)
 		ToolTip(self.input_array_random_many_variedsize_checkbox, text="If this is on, num elements will be treated as a comma-separated list of array-sizes and num arrays will be ignored.", bootstyle=(INFO, INVERSE))
+
+		# row 4 - average-case analysis checkbox
+		self.input_array_random_many_aveanalysis_checkbox_value = tk.IntVar(value=0)
+		self.input_array_random_many_aveanalysis_checkbox = ttk.Checkbutton(self.input_array_random_many_label_frame,
+																			text="Compute Average of the Results",
+																			variable = self.input_array_random_many_aveanalysis_checkbox_value,
+																			onvalue=1, offvalue=0,
+																			bootstyle=(SUCCESS, SQUARE, TOGGLE))
+		self.input_array_random_many_aveanalysis_checkbox.pack(padx=10, pady=10, expand=True, anchor=CENTER)
 
 		# make sure the proper input array settings are shown
 		self.show_hide_array_settings()
@@ -253,6 +266,9 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		###### miscellaneous elements
 		# self.scrollbar = ttk.Scrollbar(self.input_panel, orient='vertical')
 		# self.scrollbar.pack(side="right", fill="y")
+		self.progress_bar = ttk.Progressbar(self.canvas_frame, bootstyle=SUCCESS,
+											length=250, maximum=100,
+											value=0, mode="indeterminate")
 
 
 	def show_hide_array_settings(self):
@@ -314,9 +330,15 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		# reset any visualizations
 		plt.close("all")
 
+		if self.canvas is not None:
+			self.canvas.get_tk_widget().pack_forget()
+
+		if self.canvas_spacetime is not None:
+			self.canvas_spacetime.pack_forget()
+
 
 	def check_input_and_validate(self):
-		self.reset_output_panel()
+		# validate input then prepare it for analysis
 
 		# determine if single or multiple, then validate accordingly
 		if self.input_array_num.get() == "many":		# multiple arrays
@@ -405,23 +427,23 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 		# check array values, if a negative number is detected then remove algorithms
 		# that are unable to sort mixed values from the list of selected algorithms
-		disable_positive_only_algorithms = False
+		_disable_positive_only_algorithms = False
 		if self.input_array_num.get() == "many":
 			for k in input_data:
-				if sum(1 for num in input_data[k] if num <= 0) != 0:
-					disable_positive_only_algorithms = True
+				if sum(1 for num in input_data[k] if num < 0) != 0:
+					_disable_positive_only_algorithms = True
 					break
 		else:	# self.input_array_num.get() == "one"
-			if sum(1 for num in input_data if num <= 0) != 0:
-				disable_positive_only_algorithms = True
+			if sum(1 for num in input_data if num < 0) != 0:
+				_disable_positive_only_algorithms = True
 
-		show_positive_only_algorithm_dialog = False
-		if disable_positive_only_algorithms == True:
+		_show_positive_only_algorithm_dialog = False
+		if _disable_positive_only_algorithms == True:
 			for algorithm in self.positive_int_only_algorithms:
 				if self.algorithm_checkboxes_selected[algorithm].get() == 1:
 					self.algorithm_checkboxes_selected[algorithm].set(0)
-					show_positive_only_algorithm_dialog = True
-			if show_positive_only_algorithm_dialog == True:
+					_show_positive_only_algorithm_dialog = True
+			if _show_positive_only_algorithm_dialog == True:
 				Messagebox.show_info("Negative value in input data detected. Algorithms that do not support sorting negative values have been disabled.", "Notice")
 
 		# prepare selected algorithms
@@ -435,6 +457,15 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			# no algorithms were checked
 			Messagebox.show_error("Select at least one algorithm from the available.", "Error")
 			return
+
+
+		# all input fields have been validated and prepped, so we can now start analysis
+		self.reset_output_panel()
+
+		# disable button to prevent clicking multiple times and show progress bar
+		self.run_analysis_button.configure(state="disabled")
+		self.progress_bar.pack(side=TOP, anchor=CENTER)
+		self.progress_bar.start(20)
 
 		# create a thread to run sorting algorithms
 		sorting_thread = threading.Thread(target=self.start_analysis, args=(input_data,))
@@ -465,6 +496,58 @@ class AlgorithmAnalyzerApp(tk.Tk):
 					results[key]["result"]["space"] = analysis.sorting_memory_all(unsorted_data, self.selected_algorithms)
 					results[key]["result"]["time"] = analysis.sorting_runtime_all(unsorted_data, self.selected_algorithms)
 
+			# average the results if doing average-case analysis
+			if self.input_array_random_many_aveanalysis_checkbox_value.get() == 1:
+				# build results array similar to single array results but without the unsorted list
+				_tmp_results = {
+					"unsorted_data": "n/a (average-case analysis)",
+					"result": {},
+				}
+
+				# go through values in the dictionary and compute the mean
+				_count = 0
+				
+				if selected_analysis_type == "spacetime":
+					_tmp_results["result"] = {
+						"space": {},
+						"time": {},
+					}
+
+					_sums_space = {}
+					_sums_time = {}
+					for algorithm in self.selected_algorithms:
+						_sums_space[algorithm] = 0
+						_sums_time[algorithm] = 0
+
+					for key in results:
+						_count += 1
+						for algorithm in self.selected_algorithms:
+							_sums_space[algorithm] += results[key]["result"]["space"][algorithm][1]
+							_sums_time[algorithm] += results[key]["result"]["time"][algorithm][1]
+
+					for algorithm in self.selected_algorithms:
+						_average_space = _sums_space[algorithm] / _count
+						_average_time = _sums_space[algorithm] / _count
+						_tmp_results["result"]["space"][algorithm] = ([], _average_space)
+						_tmp_results["result"]["time"][algorithm] = ([], _average_time)
+
+				else: 	# selected_analysis_type == "space" or "time"
+					_sums = {}
+					for algorithm in self.selected_algorithms:
+						_sums[algorithm] = 0
+
+					for key in results:
+						_count += 1
+						for algorithm in self.selected_algorithms:
+							_sums[algorithm] += results[key]["result"][algorithm][1]
+
+					for algorithm in self.selected_algorithms:
+						_average = _sums[algorithm] / _count
+						_tmp_results["result"][algorithm] = ([], _average)
+
+				# replace results with our average-case calculations
+				results = _tmp_results
+
 		else:
 			# perform analysis on a single array across all the selected algorithms
 			results["unsorted_data"] = input_data
@@ -488,10 +571,17 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		df = self.convert_to_df(results)
 		pretty(results)
 		self.display_results(df)
+
+		# reenable button
+		self.run_analysis_button.configure(state="!disabled")
+		self.progress_bar.stop()
+		self.progress_bar.pack_forget()
 		return
+
 
 	def convert_to_df(self, results):
 		selected_analysis_type = self.analysis_type_selected.get()
+		is_average_analysis = self.input_array_random_many_aveanalysis_checkbox_value.get() == 1
 
 		# initialize dataframe
 		df = {
@@ -501,7 +591,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			"Runtime": [],
 		}
 
-		if self.input_array_num.get() == "many":
+		if self.input_array_num.get() == "many" and not is_average_analysis:
 			for key, unsorted_data in results.items():
 				# assign values depending on the analysis type
 				if selected_analysis_type == "time":
@@ -547,12 +637,6 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 
 	def display_results(self, df):
-		if self.canvas is not None:
-			self.canvas.get_tk_widget().pack_forget()
-
-		if self.canvas_spacetime is not None:
-			self.canvas_spacetime.pack_forget()
-
 		selected_analysis_type = self.analysis_type_selected.get()
 
 		matplotlib.use("agg")	# this suppresses some warnings and errors
