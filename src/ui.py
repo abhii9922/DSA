@@ -396,7 +396,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 		# start visualization
 		df = self.convert_to_df(results)
-		print(results)
+		#print(results)
 		self.display_results(df)
 		return
 

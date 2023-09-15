@@ -25,21 +25,10 @@ def sorting_runtime_all(input_data, algorithms):
 # measure RUNTIME of a SINGLE algorithm on a SINGLE set of data
 def sorting_runtime_one(algorithm_function, input_data):
 	unsorted_data = input_data.copy()	# Make a copy to avoid modifying the original data
-	"""
-	if sys.platform == "win32":
-	    # on Windows, the best timer is time.clock()
-	    default_timer = time.clock
-	else:
-	    # on most other platforms the best timer is time.time()
-	    default_timer = time.time
-	"""
 
-        #No use of default_timer
-	#default_timer=time.process_time
-
-	start_time = time.process_time()
+	start_time = time.time_ns()
 	sorted_data = algorithm_function(unsorted_data)  
-	end_time = time.process_time()
+	end_time = time.time_ns()
 
 	time_taken = end_time - start_time
 
