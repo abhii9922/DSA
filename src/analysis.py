@@ -2,6 +2,7 @@
 #	- contains methods for running runtime and space complexity analyses
 #	- returns data that can be used for visualization
 
+import sys
 import time
 import tracemalloc
 
@@ -24,10 +25,18 @@ def sorting_runtime_all(input_data, algorithms):
 # measure RUNTIME of a SINGLE algorithm on a SINGLE set of data
 def sorting_runtime_one(algorithm_function, input_data):
 	unsorted_data = input_data.copy()	# Make a copy to avoid modifying the original data
+
+	if sys.platform == "win32":
+	    # on Windows, the best timer is time.clock()
+	    default_timer = time.clock
+	else:
+	    # on most other platforms the best timer is time.time()
+	    default_timer = time.time
 	
-	start_time = time.time()
+
+	start_time = default_timer()
 	sorted_data = algorithm_function(unsorted_data)  
-	end_time = time.time()
+	end_time = default_timer()
 
 	time_taken = end_time - start_time
 
