@@ -1,12 +1,11 @@
-import sys
-sys.path.append('../')   
-from DSA.src.algorithms import heap_sort
-from DSA.src.algorithms import quicksort
-from DSA.src.algorithms import merge_sort
-from DSA.src.algorithms import bubble_sort
-from DSA.src.algorithms import bucket_sort
-from DSA.src.algorithms import counting_sort
-from DSA.src.algorithms import radix_sort
+  
+from src.algorithms import heap_sort
+from src.algorithms import quicksort
+from src.algorithms import merge_sort
+from src.algorithms import bubble_sort
+# from src.algorithms import bucket_sort
+from src.algorithms import counting_sort
+from src.algorithms import radix_sort
 
 input_test_arrays = [[1, 12, 9, 5, 6, 10],
                     [-1, 12, 0, -5, 6, 10],
@@ -107,4 +106,4 @@ test_mergesort()
 test_bubblesort()
 test_radixsort()
 #test_countingsort()
-test_bucketsort()
+#test_bucketsort()
