@@ -15,3 +15,4 @@ def sort(arr):
 	size = len(arr)
 	sorted_arr = selection_sort(arr, size)
 	return sorted_arr
+

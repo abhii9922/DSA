@@ -1,8 +1,14 @@
 def heapify(input_array,len_heap,i):
+    #largest as root
+    #initializing left child
+    #initializing right child
 
     left_pointer = 2*i+1
     right_pointer = (2*i+2)
     largest = i
+
+    # See if left child and right child  of root exists and check if it is
+    # greater than root
     if left_pointer < len_heap and input_array[left_pointer]>input_array[largest]:
         largest = left_pointer
     if right_pointer <len_heap and input_array[right_pointer]>input_array[largest]:
@@ -27,9 +33,6 @@ def sort(arr):
         heapify(arr, i, 0)
 
     return arr
-
-
-
 
 
 

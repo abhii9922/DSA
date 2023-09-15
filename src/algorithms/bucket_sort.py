@@ -10,6 +10,8 @@
 
 from algorithms.insertion_sort import insertion_sort
 
+
+
 def bucket_sort(arr):
     if len(arr) == 0:
         return arr
