@@ -32,7 +32,6 @@ def sorting_runtime_one(algorithm_function, input_data):
 	else:
 	    # on most other platforms the best timer is time.time()
 	    default_timer = time.time
-	
 
 	start_time = default_timer()
 	sorted_data = algorithm_function(unsorted_data)  
