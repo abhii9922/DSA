@@ -13,10 +13,24 @@ import seaborn as sns
 import numpy as np
 import pandas as pd
 
+# seaborn currently has warnings, so we suppress them for now
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import random
 
 import analysis
 from algorithms import *
+
+# helper function for debugging
+# this pretty prints dictionaries
+def pretty(d, indent=0):
+   for key, value in d.items():
+      print('\t' * indent + str(key))
+      if isinstance(value, dict):
+         pretty(value, indent+1)
+      else:
+         print('\t' * (indent+1) + str(value))
 
 
 class AlgorithmAnalyzerApp(tk.Tk):
@@ -38,6 +52,10 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			"Radix Sort": radix_sort.sort,
 			"Selection Sort": selection_sort.sort,
 		}
+
+		self.positive_int_only_algorithms = [
+			"Counting Sort",
+		]
 
 		self.build_gui()
 
@@ -207,7 +225,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 																text=key,
 																variable = self.algorithm_checkboxes_selected[key],
 																onvalue=1, offvalue=0,
-																width=10)
+																width=15)
 			self.algorithm_checkboxes[key].grid(column=cbox_count%3, row=cbox_count//3, padx=10, pady=5)
 			cbox_count += 1
 
@@ -269,6 +287,17 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			min_val = int(self.input_array_random_one_minval_entry.get())
 			max_val = int(self.input_array_random_one_maxval_entry.get())
 			count = int(self.input_array_random_one_count_entry.get())
+
+			# validate min value, max_value and count
+			if min_val >= max_val:
+				Messagebox.show_error("Min Value should be less than max value.", "Input Error")
+				return
+			if count <= 0:
+				Messagebox.show_error("Num elements must be greater than zero.", "Input Error")
+				return
+			if (max_val - min_val) < count:
+				Messagebox.show_error("Please make sure the range of values is larger than the num elements.", "Input Error")
+				return
 		except:
 			# if passing a non-integer, show an error
 			Messagebox.show_error("Non-integer values detected. Please make sure values are integers.", "Input Error")
@@ -307,7 +336,23 @@ class AlgorithmAnalyzerApp(tk.Tk):
 				# treat "num elements" as a list to generate random arrays
 				array_sizes =  self.input_array_random_many_count_entry.get().strip()
 
-				array_sizes = [int(x.strip()) for x in array_sizes.split(',')]
+				try:
+					array_sizes = [int(x.strip()) for x in array_sizes.split(',')]
+
+					# validate min value, max_value, and array sizes list
+					if min_val >= max_val:
+						Messagebox.show_error("Min Value should be less than max value.", "Input Error")
+						return
+					if sum(1 for num in array_sizes if num <= 0) != 0:
+						Messagebox.show_error("all array sizes must be greater than zero.", "Input Error")
+						return
+					if sum(1 for num in array_sizes if (max_val - min_val) < num) != 0:
+						Messagebox.show_error("Please make sure the range of values is larger than the num elements for all values in the list.", "Input Error")
+						return
+				except ValueError:
+					# extra symbols/non-integers detected
+					Messagebox.show_error("Invalid Input. Please enter a valid list of comma-separated integers.", "Error")
+					return
 
 				input_data = {}
 				idx = 0
@@ -318,8 +363,24 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 			else:
 				# generate N random arrays where N is the value specified by "num arrays"
-				array_size =  int(self.input_array_random_many_count_entry.get())
-				num_arrays = int(self.input_array_random_many_numarrays_entry.get())
+				try:
+					array_size =  int(self.input_array_random_many_count_entry.get())
+					num_arrays = int(self.input_array_random_many_numarrays_entry.get())
+
+					# validate min value, max_value, num elements and num arrays
+					if min_val >= max_val:
+						Messagebox.show_error("Min Value should be less than max value.", "Input Error")
+						return
+					if array_size <= 0 or num_arrays <= 0:
+						Messagebox.show_error("Num elements and num arrays must be greater than zero.", "Input Error")
+						return
+					if (max_val - min_val) < array_size:
+						Messagebox.show_error("Please make sure the range of values is larger than the num elements.", "Input Error")
+						return
+				except:
+					# if passing a non-integer, show an error
+					Messagebox.show_error("Non-integer values detected. Please make sure values passed are integers.", "Input Error")
+					return
 
 				input_data = {}
 				for n in range(0, num_arrays):
@@ -342,6 +403,26 @@ class AlgorithmAnalyzerApp(tk.Tk):
 				Messagebox.show_error("Empty Input. Please enter a list of integers.", "Error")
 				return
 
+		# check array values, if a negative number is detected then remove algorithms
+		# that are unable to sort mixed values from the list of selected algorithms
+		disable_positive_only_algorithms = False
+		if self.input_array_num.get() == "many":
+			for k in input_data:
+				if sum(1 for num in input_data[k] if num <= 0) != 0:
+					disable_positive_only_algorithms = True
+					break
+		else:	# self.input_array_num.get() == "one"
+			if sum(1 for num in input_data if num <= 0) != 0:
+				disable_positive_only_algorithms = True
+
+		show_positive_only_algorithm_dialog = False
+		if disable_positive_only_algorithms == True:
+			for algorithm in self.positive_int_only_algorithms:
+				if self.algorithm_checkboxes_selected[algorithm].get() == 1:
+					self.algorithm_checkboxes_selected[algorithm].set(0)
+					show_positive_only_algorithm_dialog = True
+			if show_positive_only_algorithm_dialog == True:
+				Messagebox.show_info("Negative value in input data detected. Algorithms that do not support sorting negative values have been disabled.", "Notice")
 
 		# prepare selected algorithms
 		self.selected_algorithms = {}
@@ -354,7 +435,6 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			# no algorithms were checked
 			Messagebox.show_error("Select at least one algorithm from the available.", "Error")
 			return
-
 
 		# create a thread to run sorting algorithms
 		sorting_thread = threading.Thread(target=self.start_analysis, args=(input_data,))
@@ -406,7 +486,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 		# start visualization
 		df = self.convert_to_df(results)
-		#print(results)
+		pretty(results)
 		self.display_results(df)
 		return
 
@@ -493,7 +573,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									x="Input",
 									y="Runtime",
 									hue="Algorithm"	)
-			bar_plot.set(title='Runtime Complexity Analysis')
+			bar_plot.set(title='Runtime Complexity Analysis', ylabel="Runtime (in ns)")
 
 			self.canvas = FigureCanvasTkAgg(plt.gcf(), self.canvas_frame)
 			self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -542,7 +622,5 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 			self.canvas_spacetime.add(tab_1, text="Scatter Plot")
 			self.canvas_spacetime.add(tab_2, text="Scatter Plot w/ Regression Lines")
-	
 
-	def show_error(self, title, message):
-		tk.messagebox.showerror(title, message)
+
