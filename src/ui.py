@@ -278,7 +278,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 	def reset_output_panel(self):
 		# reset any visualizations
-		plt.close()
+		plt.close("all")
 
 
 	def check_input_and_validate(self):
@@ -324,12 +324,12 @@ class AlgorithmAnalyzerApp(tk.Tk):
 				input_data = [int(x.strip()) for x in input_data.split(',')]
 			except ValueError:
 				# extra symbols/non-integers detected
-				Messagebox.show_error("Invalid Input. Please enter a valid list of comma-separated numbers.", "Error")
+				Messagebox.show_error("Invalid Input. Please enter a valid list of comma-separated integers.", "Error")
 				return
 
 			if not input_data:
 				# no data provided
-				Messagebox.show_error("Empty Input. Please enter a list of numbers.", "Error")
+				Messagebox.show_error("Empty Input. Please enter a list of integers.", "Error")
 				return
 
 
@@ -463,11 +463,9 @@ class AlgorithmAnalyzerApp(tk.Tk):
 		if self.canvas_spacetime is not None:
 			self.canvas_spacetime.pack_forget()
 
-
 		selected_analysis_type = self.analysis_type_selected.get()
 
-		matplotlib.use("agg")
-		sns.set(rc={'figure.figsize':(10,5)})
+		matplotlib.use("agg")	# this suppresses some warnings and errors
 
 		# resolve any key length mismatch issues
 		if selected_analysis_type == "time":
@@ -479,6 +477,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 		# set the corresponding visuals depending on the selected analysis
 		if selected_analysis_type == "time":
+			sns.set(rc={'figure.figsize':(10,5)})
+
 			bar_plot = sns.barplot(data=data,
 									x="Input",
 									y="Runtime",
@@ -489,6 +489,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
 
 		elif selected_analysis_type == "space":
+			sns.set(rc={'figure.figsize':(10,5)})
+
 			bar_plot = sns.barplot(data=data,
 									x="Input",
 									y="Space",
@@ -500,6 +502,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			
 
 		elif selected_analysis_type == "spacetime":
+			sns.set(rc={'figure.figsize':(11.7,8.27)})
+
 			self.canvas_spacetime = ttk.Notebook(self.canvas_frame, bootstyle=SECONDARY)
 			self.canvas_spacetime.pack(padx=20, pady=20)
 
@@ -509,10 +513,9 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			plot_1 = sns.jointplot(data=data,
 									x="Runtime",
 									y="Space",
-									height=5,
+									height=8.27,
 									hue="Algorithm",
 									kind="scatter"	)
-			# sns.move_legend(plot_1, "upper left", bbox_to_anchor=(1, 1))
 			tab_1_plot = FigureCanvasTkAgg(plt.gcf(), tab_1)
 			tab_1_plot.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, padx=20, pady=20)
 
@@ -520,7 +523,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									x="Runtime",
 									y="Space",
 									hue="Algorithm",
-									height=3,
+									height=8.27,
+									aspect=11.7/8.27,
 									# col="Algorithm",
 									ci=None 	)
 			tab_2_plot = FigureCanvasTkAgg(plt.gcf(), tab_2)
