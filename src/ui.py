@@ -639,6 +639,12 @@ class AlgorithmAnalyzerApp(tk.Tk):
 	def display_results(self, df):
 		selected_analysis_type = self.analysis_type_selected.get()
 
+		# we will append "Averaged" to the title if it's an average case analysis
+		is_average_analysis = self.input_array_random_many_aveanalysis_checkbox_value.get() == 1
+		average_analysis_suffix = ""
+		if is_average_analysis:
+			average_analysis_suffix = " - Aggregated Average"
+
 		matplotlib.use("agg")	# this suppresses some warnings and errors
 
 		# resolve any key length mismatch issues
@@ -657,7 +663,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									x="Input",
 									y="Runtime",
 									hue="Algorithm"	)
-			bar_plot.set(title='Runtime Complexity Analysis', ylabel="Runtime (in ns)")
+			bar_plot.set(title="Runtime Complexity Analysis" + average_analysis_suffix, ylabel="Runtime (in ns)")
 
 			self.canvas = FigureCanvasTkAgg(plt.gcf(), self.canvas_frame)
 			self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -669,7 +675,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									x="Input",
 									y="Space",
 									hue="Algorithm"	)
-			bar_plot.set(title='Space (Memory) Complexity Analysis')
+			bar_plot.set(title="Space (Memory) Complexity Analysis" + average_analysis_suffix, ylabel="Space (in B)")
 
 			self.canvas = FigureCanvasTkAgg(plt.gcf(), self.canvas_frame)
 			self.canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
@@ -690,6 +696,8 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									height=8.27,
 									hue="Algorithm",
 									kind="scatter"	)
+			plot_1.set_axis_labels("Runtime (in ns)", "Space (in B)")
+
 			tab_1_plot = FigureCanvasTkAgg(plt.gcf(), tab_1)
 			tab_1_plot.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, padx=20, pady=20)
 
@@ -698,13 +706,16 @@ class AlgorithmAnalyzerApp(tk.Tk):
 									y="Space",
 									hue="Algorithm",
 									height=8.27,
-									aspect=11.7/8.27,
+									# aspect=11.7/8.27,
 									# col="Algorithm",
 									ci=None 	)
+			plot_2.set_axis_labels("Runtime (in ns)", "Space (in B)")
+			sns.move_legend(plot_2, "lower right", frameon=True)
+
 			tab_2_plot = FigureCanvasTkAgg(plt.gcf(), tab_2)
 			tab_2_plot.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True, padx=20, pady=20)
 
-			self.canvas_spacetime.add(tab_1, text="Scatter Plot")
-			self.canvas_spacetime.add(tab_2, text="Scatter Plot w/ Regression Lines")
+			self.canvas_spacetime.add(tab_1, text="Scatter Plot" + average_analysis_suffix)
+			self.canvas_spacetime.add(tab_2, text="Scatter Plot w/ Regression Lines" + average_analysis_suffix)
 
 
