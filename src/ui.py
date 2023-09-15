@@ -34,7 +34,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 			"Heap Sort": heap_sort.sort,
 			"Insertion Sort": insertion_sort.sort,
 			"Merge Sort": merge_sort.sort,
-			"Quick Sort": quicksort.sort,
+			"Quicksort": quicksort.sort,
 			"Radix Sort": radix_sort.sort,
 			"Selection Sort": selection_sort.sort,
 		}
