@@ -55,9 +55,7 @@ class AlgorithmAnalyzerApp(tk.Tk):
 
 		# some algorithms may not work when there are negative integers
 		# this list tracks them so it can be ignored during analysis
-		self.positive_int_only_algorithms = [
-			"Counting Sort",
-		]
+		self.positive_int_only_algorithms = []
 
 		self.build_gui()
 
