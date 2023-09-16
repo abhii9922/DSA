@@ -1,23 +1,44 @@
 # DSA
-Advance Algorithms Group 6
+**Algorithm Efficiency Analysis Tool**
 
-Branches:
-Main
+Welcome to our repository :smile
 
-Please pull first before pushing any changes to the remote repository
-Link to document:
-https://docs.google.com/forms/d/e/1FAIpQLSfJGMyP_Ec_V04qfpD19MOBYZNA0ifDffKoPQrO0Llt9UbLFw/viewform
+This Tool is designed to perform analysis and comparison of different algorithms. The tool takes an input of integers, performs sorting on it and displays the performance of each of the Algorithm over graphs.
 
-For Visualisation:
-Input must be in a dictionary format. Columns "Input Values" and "Algorithm" must be in String format. Furthermore, Input Values must be in list whose type is string.
-For example:
-"[1,2,3,4]"
+We hope you find it useful :smiley
 
-You may use str(<input value>) while feeding data into visualisation tool.
-Input can be in any order. Just ensure you put all data into the dictionary.
+<ins>The algorithms used are:</ins>
+1. Bubble Sort
+2. Bucket Sort
+3. Counting Sort
+4. Heap Sort
+5. Insertion Sort
+6. Merge Sort
+7. Quicksort
+8. Radix Sort
+9. Selection Sort
 
-Sample Input:
-sample_input => Refer main.py file
+<ins>The tool plots the following graphs:</ins>
+1. Bar graph
+2. Joint plot
+3. LM plot
+
+<ins>Application Requirements:</ins>
+Python 3 (3.9 & above)
+Refer to the requirements.txt file for other depedencies.
+To install all the required depedencies:
+1. Open Command Prompt (Windows), Terminal (Linux or Mac).
+2. Head to the directory where this file is downloaded.
+3. Install the requirements using the command: pip install -r requirements.txt
+
+Ensure that you have execute permissions (or access as sudo user)
+
+
+**Important:**
+* The application is only designed for integers. It does not work for decimal Values and Strings.
+* Be aware of entering large values as this may slow down the performance of your computer. This may potentially give rise erroneous data.
+* The range of values entered must be the larger than the number of elements.
+
 
 Sample Output (the tool will take care of the output, you needn't bother. Just store it in the format described above):
    Input Values       Algorithm  Space  Runtime
