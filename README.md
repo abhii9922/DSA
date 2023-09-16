@@ -33,11 +33,11 @@ To install all the required depedencies:
 2. Navigate to the directory where this file is downloaded.
 3. Install the requirements using the command: pip install -r requirements.txt
 
-Ensure that you have execute permissions (or access as sudo user)
+Ensure that you have execute permissions (or access as sudo user).
 
 ## Running the Application
 
-All the executables is located in the /src directory. Head to this directory. You will see the following files:
+All the executables are located in the _src_ directory. Head to this directory. You will see the following files:
 1. analysis.py
 2. main.py
 3. test.py
