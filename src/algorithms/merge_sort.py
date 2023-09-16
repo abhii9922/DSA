@@ -18,6 +18,8 @@ def merge_sort(arr):
                 arr[k] = R[j]
                 j += 1
             k += 1
+
+        # if elements left out in left array or right array add it to the final array
         while i < len(L):
             arr[k] = L[i]
             i += 1
