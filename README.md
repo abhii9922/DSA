@@ -1,11 +1,10 @@
-# DSA
-**Algorithm Efficiency Analysis Tool**
+# Algorithm Efficiency Analysis Tool
 
-Welcome to our repository :smile
+Welcome to our repository :smile:
 
 This Tool is designed to perform analysis and comparison of different algorithms. The tool takes an input of integers, performs sorting on it and displays the performance of each of the Algorithm over graphs.
 
-We hope you find it useful :smiley
+We hope you find it useful :smiley:
 
 <ins>The algorithms used are:</ins>
 1. Bubble Sort
