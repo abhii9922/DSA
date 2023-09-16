@@ -22,7 +22,7 @@ We hope you find it useful :smiley:
 2. Joint plot
 3. LM plot
 
-<ins>Application Requirements:</ins>
+## Application Requirements:
 Python 3 (3.9 & above)
 Refer to the requirements.txt file for other depedencies.
 To install all the required depedencies:
