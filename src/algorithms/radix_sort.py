@@ -30,4 +30,5 @@ def sort(arr):
     sorted_arr = radix_sort(arr)
     return sorted_arr
 
+# print(sort([1, 12, 9, 5, 6, 10]))
 

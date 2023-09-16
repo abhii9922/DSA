@@ -6,9 +6,6 @@ def partition(array, start, end):
     while True:
         # If the current value we're looking at is larger than the pivot
         # it's in the right place (right side of pivot) and we can move left,
-        # to the next element.
-        # We also need to make sure we haven't surpassed the low pointer, since that
-        # indicates we have already moved all the elements to their correct side of the pivot
         while low <= high and array[high] >= pivot:
             high = high - 1
 

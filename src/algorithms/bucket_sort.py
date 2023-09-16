@@ -15,15 +15,17 @@ from algorithms.insertion_sort import insertion_sort
 def bucket_sort(arr):
     if len(arr) == 0:
         return arr
-    min_val, max_val = min(arr), max(arr)
+    min_val, max_val = min(arr), max(arr)  # for minimum and maximum value of the array
     bucket_count = len(arr)
     buckets = [[] for _ in range(bucket_count)]
 
+    #put array elements into buckets
     for i in range(bucket_count):
         # Convert index to an integer
         idx = int((arr[i] - min_val) * (bucket_count - 1) / (max_val - min_val))
         buckets[idx].append(arr[i])
 
+    # sorting elements in individual buckets
     for i in range(bucket_count):
         buckets[i] = insertion_sort(buckets[i])
 
