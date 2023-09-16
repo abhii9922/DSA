@@ -51,4 +51,4 @@ Double click on the main.py file to launch the application.
 * The range of values entered must be the larger than the number of elements.
 
 
-We hope you found it useful :smiley:
+We hope you find it useful :smiley:
